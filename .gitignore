@@ -1,0 +1,34 @@
+# ============================================================================
+# CREDENCIALES — nunca deben subirse al repositorio
+# ============================================================================
+credenciales.txt
+credenciales*.txt
+*.pem
+*.key
+.env
+.env.*
+
+# ============================================================================
+# Datasets que exceden el limite de 100 MB de GitHub
+# Se obtienen ejecutando: python scripts/descargar_datos.py
+# ============================================================================
+data/raw/nypd_arrests_historic.csv
+data/raw/mvc_vehicles.csv
+data/raw/mvc_crashes.csv
+
+# Cualquier CSV o Parquet de gran tamano que se genere mas adelante
+data/processed/
+*.parquet
+
+# ============================================================================
+# Archivos temporales
+# ============================================================================
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.virtual_documents/
+*.bak
+*.bak.*
+~$*
+.DS_Store
+Thumbs.db
