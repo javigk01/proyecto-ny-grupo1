@@ -1,28 +1,45 @@
-# Sumas de control MD5 de la descarga original
+# Sumas de control MD5 de los conjuntos de datos
 #
-# Fecha de descarga: 2026-09-20
-# Origen: portal NYC Open Data (API de exportacion CSV) y College Board
-# Verificadas en origen (maquina local) y en destino (/opt/cluster/data/grupo1):
-# coincidencia en los siete archivos.
+# Conjuntos del enunciado y complementarios de seguridad: descargados 2026-09-20
+# Conjuntos de 2023 (pobreza y educacion):                 descargados 2026-10-02
+#
+# Origen: portal NYC Open Data (API de exportacion CSV), U.S. Census Bureau
+# y College Board. Verificadas en origen (maquina local) y en destino
+# (/opt/cluster/data/grupo1): coincidencia en todos los archivos.
 #
 # Nota: los conjuntos de arrestos y de siniestros se actualizan periodicamente.
 # Una descarga posterior producira un MD5 distinto sin que ello implique
 # corrupcion; lo que cambia es el contenido publicado.
 #
 # Verificar:  md5sum -c CHECKSUMS.md5     (desde data/raw)
+#        o:   python scripts/descargar_datos.py --verificar
 
-64cd5642148d64806856deaf8ca2da68  collegeboard_ny_sat_2024.pdf
-3910e93784f255c1872c6414fbf20ba8  mvc_crashes.csv
-a42d89580d36a63ee3c3ec6fc8dfd15b  mvc_vehicles.csv
-6627e62826762bd48946844b67c9f679  nycgov_poverty_2018.csv
-dda349aa0a309b79ff1b8560b1e4983d  nypd_arrests_historic.csv
+# --- Suministrados en el enunciado ---
 13eb7574424c38df1eded4cb8d3a4592  nypd_arrests_ytd.csv
+6627e62826762bd48946844b67c9f679  nycgov_poverty_2018.csv
+a42d89580d36a63ee3c3ec6fc8dfd15b  mvc_vehicles.csv
 94450e578b26f75c8300f7341b60c3fa  sat_results_2012.csv
+64cd5642148d64806856deaf8ca2da68  collegeboard_ny_sat_2024.pdf
 
-# Conteos de registros verificados en Spark contra los metadatos del portal:
-#   nypd_arrests_historic.csv    6.264.978
-#   nypd_arrests_ytd.csv           141.870
-#   mvc_crashes.csv              2.269.187
-#   mvc_vehicles.csv             4.551.002
-#   nycgov_poverty_2018.csv         68.273
-#   sat_results_2012.csv               478
+# --- Incorporados por el equipo: cobertura y atributos faltantes ---
+3910e93784f255c1872c6414fbf20ba8  mvc_crashes.csv
+dda349aa0a309b79ff1b8560b1e4983d  nypd_arrests_historic.csv
+
+# --- Incorporados por el equipo: alineacion temporal en 2023 ---
+ca6335af22b48f84d87d103a1acd5e51  acs_pums_ny_2023.zip
+102dbee93a327ec5e1ff6c5a0bcd17b5  acs_pums_ny_2023_persona.csv
+de7769f549ac62ae6054e6bda81d3146  nyc_graduacion_2012_2019.csv
+f7c490c12ae0b6eb6f5480a81f4f1b9a  nyc_regents_2015_2019.csv
+7e4dd3d9b89e8f544e58cf2017ef6b84  puma2020_a_distrito.csv
+
+# Conteos de registros verificados en Spark contra los metadatos publicados:
+#   nypd_arrests_historic.csv        6.264.978
+#   nypd_arrests_ytd.csv               141.870
+#   mvc_crashes.csv                  2.269.187
+#   mvc_vehicles.csv                 4.551.002
+#   acs_pums_ny_2023_persona.csv       206.408   (66.390 de la ciudad)
+#   nyc_graduacion_2012_2019.csv       321.002
+#   nyc_regents_2015_2019.csv           82.964
+#   nycgov_poverty_2018.csv             68.273
+#   sat_results_2012.csv                   478
+#   puma2020_a_distrito.csv                 55   (PUMAs de la ciudad)

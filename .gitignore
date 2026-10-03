@@ -9,12 +9,17 @@ credenciales*.txt
 .env.*
 
 # ============================================================================
-# Datasets que exceden el limite de 100 MB de GitHub
-# Se obtienen ejecutando: python scripts/descargar_datos.py
+# Datasets grandes. Se obtienen ejecutando:
+#   python scripts/descargar_datos.py
 # ============================================================================
 data/raw/nypd_arrests_historic.csv
 data/raw/mvc_vehicles.csv
 data/raw/mvc_crashes.csv
+
+# El ACS PUMS se descarga comprimido (36 MB) y se extrae a 145 MB,
+# por encima del limite de 100 MB de GitHub
+data/raw/acs_pums_ny_2023.zip
+data/raw/acs_pums_ny_2023_persona.csv
 
 # Cualquier CSV o Parquet de gran tamano que se genere mas adelante
 data/processed/

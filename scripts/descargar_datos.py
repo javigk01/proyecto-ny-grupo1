@@ -14,10 +14,20 @@ import os
 import sys
 import time
 import urllib.request
+import zipfile
 
 RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DESTINO = os.path.join(RAIZ, "data", "raw")
 PLANTILLA = "https://data.cityofnewyork.us/api/views/%s/rows.csv?accessType=DOWNLOAD"
+
+# Microdatos del censo: se publican comprimidos y requieren extraccion
+PUMS_URL = ("https://www2.census.gov/programs-surveys/acs/data/pums/"
+            "2023/1-Year/csv_pny.zip")
+PUMS_ZIP = "acs_pums_ny_2023.zip"
+PUMS_CSV = "acs_pums_ny_2023_persona.csv"
+PUMS_INTERNO = "psam_p36.csv"
+PUMS_MD5_ZIP = "ca6335af22b48f84d87d103a1acd5e51"
+PUMS_MD5_CSV = "102dbee93a327ec5e1ff6c5a0bcd17b5"
 
 # Sumas de control y conteos de la descarga original del 20/09/2026.
 # Los conjuntos de arrestos y siniestros se actualizan periodicamente, de modo
@@ -123,6 +133,38 @@ def main():
             print("            Es lo esperado si el portal actualizo el conjunto;")
             print("            en ese caso los conteos del cuaderno cambiaran.")
         print()
+
+    # ---------------------------------------------------- ACS PUMS 2023
+    print("ACS PUMS 2023, estado de Nueva York")
+    ruta_zip = os.path.join(DESTINO, PUMS_ZIP)
+    ruta_csv = os.path.join(DESTINO, PUMS_CSV)
+    print("   %s  (36,6 MB comprimidos)" % PUMS_ZIP)
+
+    if not args.verificar and not os.path.exists(ruta_csv):
+        descargar(PUMS_URL, ruta_zip, 36608199)
+
+    if os.path.exists(ruta_zip):
+        suma = md5_de(ruta_zip)
+        print("   md5 zip: %s" % ("coincide" if suma == PUMS_MD5_ZIP else suma))
+
+    if not os.path.exists(ruta_csv) and os.path.exists(ruta_zip):
+        print("   extrayendo %s -> %s" % (PUMS_INTERNO, PUMS_CSV))
+        with zipfile.ZipFile(ruta_zip) as z, open(ruta_csv, "wb") as destino:
+            with z.open(PUMS_INTERNO) as origen:
+                while True:
+                    trozo = origen.read(8 * 1024 * 1024)
+                    if not trozo:
+                        break
+                    destino.write(trozo)
+
+    if os.path.exists(ruta_csv):
+        print("   %s  (%s)" % (PUMS_CSV, humano(os.path.getsize(ruta_csv))))
+        suma = md5_de(ruta_csv)
+        print("   md5 csv: %s" % ("coincide" if suma == PUMS_MD5_CSV else suma))
+    else:
+        print("   FALTA")
+        problemas += 1
+    print()
 
     print("-" * 62)
     if problemas:
