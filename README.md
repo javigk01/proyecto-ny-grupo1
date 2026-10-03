@@ -34,7 +34,7 @@ directorio compartido por NFS, que los seis nodos ven en la misma ruta:
 El cuaderno lee de ahí directamente (constante `BASE`). El otro equipo que comparte el
 clúster trabaja en `/opt/cluster/data/grupo2/`; no lo modifiques.
 
-### Los diez conjuntos
+### Los nueve conjuntos
 
 | Conjunto | Registros | Año | Origen | En el repo |
 |---|---|---|---|---|
@@ -43,7 +43,6 @@ clúster trabaja en `/opt/cluster/data/grupo2/`; no lo modifiques.
 | `mvc_crashes.csv` | 2.269.187 | 2012–2026 | equipo | no, usar script |
 | `acs_pums_ny_2023_persona.csv` | 206.408 | 2023 | equipo | no, usar script |
 | `nyc_graduacion_2012_2019.csv` | 321.002 | 2016–2023 | equipo | sí |
-| `nyc_regents_2015_2019.csv` | 82.964 | 2015–2019 | equipo | sí |
 | `nypd_arrests_ytd.csv` | 141.870 | 2026 | enunciado | sí |
 | `nycgov_poverty_2018.csv` | 68.273 | 2018 | enunciado | sí |
 | `sat_results_2012.csv` | 478 | 2012 | enunciado | sí |
@@ -135,14 +134,15 @@ priorización en seguridad ciudadana puede apoyarse en un diagnóstico estable, 
 seguridad vial debe recalcularse periódicamente.
 
 **El ordenamiento educativo persiste once años.** El SAT de 2012 y la graduación de 2023
-producen el mismo orden entre distritos, pese a ser mediciones distintas.
+producen exactamente el mismo orden entre distritos, pese a ser mediciones de naturaleza
+distinta. El rezago educativo es estructural, no coyuntural.
 
 **Los atributos del conductor no se capturaban antes de 2016.** La ausencia pasa del 99,9%
 en 2015 al 34,8% en 2016. No deben imputarse: hay que acotar la ventana temporal.
 
-**El marcador «s» oculta faltantes en todos los datasets educativos.** Afecta al 39,91% de
-Regents, al 25,45% de graduación y al 11,92% de SAT. Un conteo de nulos no lo detecta
-porque técnicamente es un valor.
+**El marcador «s» oculta faltantes en los datasets educativos.** Afecta al 25,45% de las
+filas de graduación y al 11,92% de SAT. Un conteo de nulos no lo detecta porque técnicamente
+es un valor, y bajo la semántica ANSI de Spark 4 su conversión aborta la ejecución.
 
 ## Pendientes
 
